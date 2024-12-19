@@ -6,6 +6,7 @@ import { Input, CardBody, Card, CardHeader, Button } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { CenteredContainer } from "./center";
+import { signUp } from "@/actions/auth";
 
 export const LoginForm = () => {
   const {
@@ -17,9 +18,7 @@ export const LoginForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log(data);
-  };
+  const onSubmit = async (data: LoginSchema) => {};
 
   return (
     <CenteredContainer>

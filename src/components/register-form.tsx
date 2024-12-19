@@ -6,19 +6,40 @@ import { Input, CardBody, Card, CardHeader, Button } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { CenteredContainer } from "./center";
+import { signUp } from "@/actions/auth";
+import type { ZodIssue } from "zod";
+import { useRouter } from "next/navigation";
+import { urls } from "@/lib/urls";
 
 export const RegisterForm = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isValid, isSubmitting },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
   });
 
-  const onSubmit = (data: RegisterSchema) => {
-    console.log(data);
+  const router = useRouter();
+
+  const onSubmit = async (data: RegisterSchema) => {
+    const result = await signUp(data);
+
+    if (result.status === "success") {
+      console.log("User registered successfully.");
+      router.push(urls.home);
+    } else {
+      if (Array.isArray(result.error)) {
+        result.error.forEach((error: ZodIssue) => {
+          const fieldName = error.path.join(".") as keyof RegisterSchema;
+          setError(fieldName, { message: error.message });
+        });
+      } else {
+        setError("root", { message: result.error });
+      }
+    }
   };
 
   return (
