@@ -4,14 +4,36 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { registerSchema, RegisterSchema } from "@/lib/schemas/register";
 import { LoginSchema } from "@/lib/schemas/login";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 import type { User } from "@prisma/client";
 import type { ActionResult } from "@/types";
 
-export const signIn = async (data: LoginSchema) => {};
+export const signInUser = async (
+  data: LoginSchema
+): Promise<ActionResult<string>> => {
+  try {
+    await signIn("credentials", { ...data, redirect: false });
+    console.log("1111");
 
-export async function signOut() {}
+    return { status: "success", data: "User successfully logged in." };
+  } catch (error) {
+    console.log("2222", error);
 
-export async function signUp(
+    if (error instanceof AuthError) {
+      if (error.type === "CredentialsSignin") {
+        return { status: "error", error: "Invalid credentials." };
+      }
+      return { status: "error", error: error.message };
+    }
+
+    return { status: "error", error: "Something went wrong." };
+  }
+};
+
+export async function signOutUser() {}
+
+export async function signUpUser(
   data: RegisterSchema
 ): Promise<ActionResult<User>> {
   const validatedData = registerSchema.safeParse(data);

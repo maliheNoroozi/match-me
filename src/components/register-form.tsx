@@ -6,7 +6,7 @@ import { Input, CardBody, Card, CardHeader, Button } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
 import { CenteredContainer } from "./center";
-import { signUp } from "@/actions/auth";
+import { signUpUser } from "@/actions/auth";
 import type { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
 import { urls } from "@/lib/urls";
@@ -25,7 +25,7 @@ export const RegisterForm = () => {
   const router = useRouter();
 
   const onSubmit = async (data: RegisterSchema) => {
-    const result = await signUp(data);
+    const result = await signUpUser(data);
 
     if (result.status === "success") {
       console.log("User registered successfully.");
@@ -95,6 +95,11 @@ export const RegisterForm = () => {
               >
                 Register
               </Button>
+              <div className="p-1">
+                {errors.root && (
+                  <span className="text-danger">{errors.root?.message}</span>
+                )}
+              </div>
             </div>
           </form>
         </CardBody>
