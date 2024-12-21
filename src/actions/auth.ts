@@ -10,12 +10,17 @@ import type { User } from "@prisma/client";
 import type { ActionResult } from "@/types";
 
 export const signInUser = async (
-  data: LoginSchema
+  provider: "credentials" | "google" | "github",
+  data?: LoginSchema,
+  redirect?: boolean,
+  redirectTo?: string
 ): Promise<ActionResult<string>> => {
   try {
-    await signIn("credentials", { ...data, redirect: false });
-    console.log("1111");
-
+    await signIn(provider, {
+      ...data,
+      redirect: redirect ?? false,
+      redirectTo: redirectTo ?? "",
+    });
     return { status: "success", data: "User successfully logged in." };
   } catch (error) {
     console.log("2222", error);
@@ -24,6 +29,7 @@ export const signInUser = async (
       if (error.type === "CredentialsSignin") {
         return { status: "error", error: "Invalid credentials." };
       }
+
       return { status: "error", error: error.message };
     }
 

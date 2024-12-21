@@ -9,6 +9,7 @@ import { CenteredContainer } from "./center";
 import { signInUser } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { urls } from "@/lib/urls";
+import { AuthProviders } from "./auth-providers";
 
 export const LoginForm = () => {
   const {
@@ -24,9 +25,8 @@ export const LoginForm = () => {
   const router = useRouter();
 
   const onSubmit = async (data: LoginSchema) => {
-    const result = await signInUser(data);
+    const result = await signInUser("credentials", data);
     if (result.status === "success") {
-      console.log(result.data);
       router.push(urls.members);
     } else {
       setError("root", { message: result.error as string });
@@ -35,7 +35,7 @@ export const LoginForm = () => {
 
   return (
     <CenteredContainer>
-      <Card className="w-1/3 mx-auto">
+      <Card className="min-w-1/3 mx-auto">
         <CardHeader className="flex flex-col items-center justify-center">
           <div className="flex flex-col gap-2 items-center text-default">
             <div className="flex flex-row items-center gap-3">
@@ -71,11 +71,15 @@ export const LoginForm = () => {
               <Button
                 fullWidth
                 type="submit"
+                className="bg-red-400 text-white"
                 isLoading={isSubmitting}
                 isDisabled={!isValid}
               >
                 Login
               </Button>
+
+              <AuthProviders />
+
               <div className="p-1">
                 {errors.root && (
                   <span className="text-danger">{errors.root?.message}</span>
