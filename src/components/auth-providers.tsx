@@ -7,8 +7,8 @@ import { SiGitlab } from "react-icons/si";
 export function AuthProviders() {
   return (
     <div className="flex justify-between gap-4 flex-wrap">
-      {providersMap.map((provider) => (
-        <form className="flex-1" action={async () => {}}>
+      {providersMap.map((provider, index) => (
+        <form key={index} className="flex-1" action={async () => {}}>
           <Button
             fullWidth
             type="submit"

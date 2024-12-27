@@ -8,14 +8,14 @@ import { GiPadlock } from "react-icons/gi";
 import { CenteredContainer } from "./center";
 import { signInUser } from "@/actions/auth";
 import { useRouter } from "next/navigation";
-import { urls } from "@/lib/urls";
 import { AuthProviders } from "./auth-providers";
+import { toast } from "react-toastify";
+import { urls } from "@/lib/urls";
 
 export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -29,7 +29,7 @@ export const LoginForm = () => {
     if (result.status === "success") {
       router.push(urls.members);
     } else {
-      setError("root", { message: result.error as string });
+      toast.error(result.error as string);
     }
   };
 
@@ -77,16 +77,9 @@ export const LoginForm = () => {
               >
                 Login
               </Button>
-
-              <AuthProviders />
-
-              <div className="p-1">
-                {errors.root && (
-                  <span className="text-danger">{errors.root?.message}</span>
-                )}
-              </div>
             </div>
           </form>
+          <AuthProviders />
         </CardBody>
       </Card>
     </CenteredContainer>

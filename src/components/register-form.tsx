@@ -9,6 +9,7 @@ import { CenteredContainer } from "./center";
 import { signUpUser } from "@/actions/auth";
 import type { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import { urls } from "@/lib/urls";
 
 export const RegisterForm = () => {
@@ -28,7 +29,7 @@ export const RegisterForm = () => {
     const result = await signUpUser(data);
 
     if (result.status === "success") {
-      console.log("User registered successfully.");
+      toast.success("User registered successfully.");
       router.push(urls.home);
     } else {
       if (Array.isArray(result.error)) {
@@ -37,7 +38,7 @@ export const RegisterForm = () => {
           setError(fieldName, { message: error.message });
         });
       } else {
-        setError("root", { message: result.error });
+        toast.error(result.error);
       }
     }
   };
@@ -95,11 +96,6 @@ export const RegisterForm = () => {
               >
                 Register
               </Button>
-              <div className="p-1">
-                {errors.root && (
-                  <span className="text-danger">{errors.root?.message}</span>
-                )}
-              </div>
             </div>
           </form>
         </CardBody>
