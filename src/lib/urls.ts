@@ -5,4 +5,5 @@ export const urls = {
   lists: "/lists",
   signIn: "/login",
   signUp: "/register",
+  profile: "/profile",
 };

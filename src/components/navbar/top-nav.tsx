@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Navbar, NavbarBrand, NavbarContent, Button } from "@nextui-org/react";
 import { NavLink } from "./nav-link";
+import { UserMenu } from "./user-menu";
+import { auth } from "@/auth";
 
 const links = [
   { label: "Matches", href: "/matches" },
@@ -9,7 +11,9 @@ const links = [
   { label: "Members", href: "/members" },
 ];
 
-export function TopNav() {
+export async function TopNav() {
+  const session = await auth();
+
   return (
     <Navbar
       maxWidth="full"
@@ -40,22 +44,28 @@ export function TopNav() {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <Button
-          as={Link}
-          href="/login"
-          variant="bordered"
-          className="text-white"
-        >
-          Login
-        </Button>
-        <Button
-          as={Link}
-          href="/register"
-          variant="bordered"
-          className="text-white"
-        >
-          Register
-        </Button>
+        {session?.user ? (
+          <UserMenu user={session.user} />
+        ) : (
+          <>
+            <Button
+              as={Link}
+              href="/login"
+              variant="bordered"
+              className="text-white"
+            >
+              Login
+            </Button>
+            <Button
+              as={Link}
+              href="/register"
+              variant="bordered"
+              className="text-white"
+            >
+              Register
+            </Button>
+          </>
+        )}
       </NavbarContent>
     </Navbar>
   );

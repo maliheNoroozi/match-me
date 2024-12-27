@@ -4,10 +4,11 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { registerSchema, RegisterSchema } from "@/lib/schemas/register";
 import { LoginSchema } from "@/lib/schemas/login";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import type { User } from "@prisma/client";
 import type { ActionResult } from "@/types";
+import { urls } from "@/lib/urls";
 
 export const signInUser = async (
   provider: "credentials" | "google" | "github",
@@ -23,8 +24,6 @@ export const signInUser = async (
     });
     return { status: "success", data: "User successfully logged in." };
   } catch (error) {
-    console.log("2222", error);
-
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
         return { status: "error", error: "Invalid credentials." };
@@ -37,7 +36,9 @@ export const signInUser = async (
   }
 };
 
-export async function signOutUser() {}
+export async function signOutUser() {
+  await signOut({ redirectTo: urls.signIn });
+}
 
 export async function signUpUser(
   data: RegisterSchema

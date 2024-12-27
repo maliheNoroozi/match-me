@@ -30,7 +30,7 @@ export const RegisterForm = () => {
 
     if (result.status === "success") {
       toast.success("User registered successfully.");
-      router.push(urls.home);
+      router.push(urls.signIn);
     } else {
       if (Array.isArray(result.error)) {
         result.error.forEach((error: ZodIssue) => {

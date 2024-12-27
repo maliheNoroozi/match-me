@@ -42,6 +42,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   providers,
   pages: { signIn: urls.signIn, signOut: urls.signUp },
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token.id) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
 });
 
 export const providersMap = providers
