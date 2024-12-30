@@ -45,18 +45,20 @@ export const RegisterForm = () => {
 
   return (
     <CenteredContainer>
-      <Card className="w-1/3 mx-auto">
-        <CardHeader className="flex flex-col items-center justify-center">
+      <Card className="mx-auto w-full max-w-md p-4 sm:p-6 md:p-8">
+        <CardHeader className="flex flex-col items-center justify-center text-center">
           <div className="flex flex-col gap-2 items-center text-default">
             <div className="flex flex-row items-center gap-3">
               <GiPadlock size={30} />
-              <h1 className="text-3xl font-semibold">Register</h1>
+              <h1 className="text-2xl sm:text-3xl font-semibold">Register</h1>
             </div>
-            <p className="text-neutral-500">Welcome back to MatchMe!</p>
+            <p className="text-sm sm:text-base text-neutral-500">
+              Welcome back to MatchMe!
+            </p>
           </div>
         </CardHeader>
-        <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <CardBody className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-4">
               <Input
                 isRequired
@@ -76,7 +78,7 @@ export const RegisterForm = () => {
                 labelPlacement="inside"
                 {...register("email")}
                 errorMessage={errors.email?.message}
-                isInvalid={!!errors.email}
+                isInvalid={!!errors.email?.message}
               />
               <Input
                 isRequired
@@ -86,11 +88,12 @@ export const RegisterForm = () => {
                 labelPlacement="inside"
                 {...register("password")}
                 errorMessage={errors.password?.message}
-                isInvalid={!!errors.password}
+                isInvalid={!!errors.password?.message}
               />
               <Button
                 fullWidth
                 type="submit"
+                className="w-full bg-red-400 text-white hover:bg-red-500"
                 isLoading={isSubmitting}
                 isDisabled={!isValid}
               >

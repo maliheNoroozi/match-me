@@ -35,18 +35,20 @@ export const LoginForm = () => {
 
   return (
     <CenteredContainer>
-      <Card className="min-w-1/3 mx-auto">
-        <CardHeader className="flex flex-col items-center justify-center">
+      <Card className="mx-auto w-full max-w-md p-4 sm:p-6 md:p-8">
+        <CardHeader className="flex flex-col items-center justify-center text-center">
           <div className="flex flex-col gap-2 items-center text-default">
             <div className="flex flex-row items-center gap-3">
               <GiPadlock size={30} />
-              <h1 className="text-3xl font-semibold">Login</h1>
+              <h1 className="text-2xl sm:text-3xl font-semibold">Login</h1>
             </div>
-            <p className="text-neutral-500">Welcome back to MatchMe!</p>
+            <p className="text-sm sm:text-base text-neutral-500">
+              Welcome back to MatchMe!
+            </p>
           </div>
         </CardHeader>
-        <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <CardBody className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-4">
               <Input
                 isRequired
@@ -71,7 +73,7 @@ export const LoginForm = () => {
               <Button
                 fullWidth
                 type="submit"
-                className="bg-red-400 text-white"
+                className="w-full bg-red-400 text-white hover:bg-red-500"
                 isLoading={isSubmitting}
                 isDisabled={!isValid}
               >

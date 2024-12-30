@@ -37,7 +37,7 @@ export const signInUser = async (
 };
 
 export async function signOutUser() {
-  await signOut({ redirectTo: urls.signIn });
+  await signOut({ redirectTo: urls.home });
 }
 
 export async function signUpUser(
