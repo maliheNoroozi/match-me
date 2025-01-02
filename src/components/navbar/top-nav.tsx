@@ -6,9 +6,9 @@ import { UserMenu } from "./user-menu";
 import { auth } from "@/auth";
 
 const links = [
-  { label: "Matches", href: "/matches" },
+  { label: "Matches", href: "/members" },
   { label: "Lists", href: "/lists" },
-  { label: "Members", href: "/members" },
+  { label: "Messages", href: "/messages" },
 ];
 
 export async function TopNav() {
