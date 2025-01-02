@@ -1,4 +1,4 @@
-import { urls } from "./lib/urls";
+import { urls } from "./urls";
 
 export const publicRoutes = [urls.home];
 

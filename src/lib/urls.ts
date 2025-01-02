@@ -9,5 +9,5 @@ export const urls = {
   verifyEmail: "/verify-email",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
-  profile: "/profile",
+  profile: "/members/edit",
 };

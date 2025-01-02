@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { authRoutes, publicRoutes } from "@/routes";
+import { authRoutes, publicRoutes } from "@/lib/routes";
 import { urls } from "@/lib/urls";
 
 export default auth((req) => {
