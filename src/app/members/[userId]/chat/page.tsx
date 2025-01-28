@@ -1,15 +1,13 @@
-import { getMemberByUserId } from "@/actions/members";
+import { getMemberChatsByUserId } from "@/actions/members";
 import { CardInnerWrapper } from "@/components/card-inner-wrapper";
-import { notFound } from "next/navigation";
 
 interface Props {
   params: Promise<{ userId: string }>;
 }
 
-export default async function MemberChats({ params }: Props) {
+export default async function MemberChat({ params }: Props) {
   const { userId } = await params;
-  const member = await getMemberByUserId(userId);
-  if (!member) return notFound();
+  const chats = await getMemberChatsByUserId(userId);
 
-  return <CardInnerWrapper header="Chats" body={member.description} />;
+  return <CardInnerWrapper header="Chat" body={<div>Chats</div>} />;
 }
