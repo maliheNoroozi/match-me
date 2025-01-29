@@ -12,7 +12,7 @@ interface Props {
 export function MemberCard({ member, isMemberLiked }: Props) {
   return (
     <Card fullWidth as={Link} href={`/members/${member.userId}`} isPressable>
-      <div className="absolute top-3 right-3 z-50">
+      <div className="absolute top-3 right-3 z-40">
         <LikeButton targetId={member.userId} isMemberLiked={isMemberLiked} />
       </div>
       <Image

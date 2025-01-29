@@ -17,7 +17,7 @@ export async function TopNav() {
   return (
     <Navbar
       maxWidth="full"
-      className="bg-gradient-to-r from-pink-400 via-red-400 to-pink-600"
+      className="bg-gradient-to-r from-pink-400 via-red-400 to-pink-600 z-50"
       classNames={{
         item: [
           "text-xl",
