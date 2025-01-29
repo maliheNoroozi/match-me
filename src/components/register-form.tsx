@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, CardBody, Card, CardHeader, Button } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { GiPadlock } from "react-icons/gi";
-import { Centered } from "./center";
+import { Center } from "./center";
 import { signUpUser } from "@/actions/auth";
 import type { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
@@ -44,7 +44,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <Centered>
+    <Center>
       <Card className="mx-auto w-full max-w-md p-4 sm:p-6 md:p-8">
         <CardHeader className="flex flex-col items-center justify-center text-center">
           <div className="flex flex-col gap-2 items-center text-default">
@@ -103,6 +103,6 @@ export const RegisterForm = () => {
           </form>
         </CardBody>
       </Card>
-    </Centered>
+    </Center>
   );
 };

@@ -2,14 +2,19 @@ import { Card, CardFooter, Image } from "@nextui-org/react";
 import { Member } from "@prisma/client";
 import Link from "next/link";
 import { calculateAge } from "@/lib/utils";
+import { LikeButton } from "@/components/like-button";
 
 interface Props {
   member: Member;
+  isMemberLiked: boolean;
 }
 
-export function MemberCard({ member }: Props) {
+export function MemberCard({ member, isMemberLiked }: Props) {
   return (
     <Card fullWidth as={Link} href={`/members/${member.userId}`} isPressable>
+      <div className="absolute top-3 right-3 z-50">
+        <LikeButton targetId={member.userId} isMemberLiked={isMemberLiked} />
+      </div>
       <Image
         isZoomed
         alt={member.name}

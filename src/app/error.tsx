@@ -1,6 +1,6 @@
 "use client";
 
-import { Centered } from "@/components/center";
+import { Center } from "@/components/center";
 import {
   Button,
   Card,
@@ -18,7 +18,7 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <Centered>
+    <Center>
       <Card className="w-2/5 mx-auto">
         <CardHeader className="flex flex-col items-center justify-center">
           <div className="flex flex-row gap-2 items-center text-default">
@@ -35,6 +35,6 @@ export default function Error({
           </Button>
         </CardFooter>
       </Card>
-    </Centered>
+    </Center>
   );
 }
