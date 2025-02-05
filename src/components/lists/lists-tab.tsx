@@ -4,7 +4,7 @@ import { Key, useTransition } from "react";
 import { Tab, Tabs } from "@nextui-org/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Member } from "@prisma/client";
-import Loading from "@/components/loading";
+import { Loading } from "@/components/loading";
 import { MemberCard } from "../members/member-card";
 
 interface Props {
@@ -27,7 +27,7 @@ const tabs = [
   },
 ];
 
-export default function ListsTab({ members, likeIds }: Props) {
+export function ListsTab({ members, likeIds }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

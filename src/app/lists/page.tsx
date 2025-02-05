@@ -1,5 +1,5 @@
 import { fetchCurrentUserLikeIds, fetchLikeMembers } from "@/actions/like";
-import ListsTab from "@/components/lists/lists-tab";
+import { ListsTab } from "@/components/lists/lists-tab";
 
 interface Props {
   searchParams: Promise<{ [key: string]: string }>;

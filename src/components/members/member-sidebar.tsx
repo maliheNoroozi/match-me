@@ -15,20 +15,11 @@ import { usePathname } from "next/navigation";
 
 interface Props {
   member: Member;
+  navLinks: { name: string; href: string }[];
 }
 
-export function MemberSidebar({ member }: Props) {
+export function MemberSidebar({ member, navLinks }: Props) {
   const pathname = usePathname();
-
-  const basePath = `/members/${member.userId}`;
-  const navLinks = [
-    { name: "Profile", href: `${basePath}` },
-    {
-      name: "Photos",
-      href: `${basePath}/photos`,
-    },
-    { name: "Chat", href: `${basePath}/chat` },
-  ];
 
   return (
     <Card className="w-full items-center h-full">

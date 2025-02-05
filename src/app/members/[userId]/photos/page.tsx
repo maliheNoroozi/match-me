@@ -14,7 +14,7 @@ export default async function MemberPhotos({ params }: Props) {
     <CardInnerWrapper
       header="Photos"
       body={
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {(photos || []).map((photo) => (
             <Image
               key={photo.id}
