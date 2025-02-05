@@ -62,7 +62,6 @@ export const RegisterForm = () => {
             <div className="space-y-4">
               <Input
                 isRequired
-                type="name"
                 variant="bordered"
                 label="Name"
                 labelPlacement="inside"
