@@ -1,9 +1,10 @@
+import { ReactNode } from "react";
+import { notFound } from "next/navigation";
+import { Card } from "@nextui-org/react";
 import { getAuthUserId } from "@/actions/auth";
 import { getMemberByUserId } from "@/actions/members";
 import { MemberSidebar } from "@/components/members/member-sidebar";
-import { Card } from "@nextui-org/react";
-import { notFound } from "next/navigation";
-import { ReactNode } from "react";
+import { urls } from "@/lib/urls";
 
 interface Props {
   children: ReactNode;
@@ -14,13 +15,9 @@ export default async function Layout({ children }: Props) {
   const member = await getMemberByUserId(userId);
   if (!member) return notFound();
 
-  const basePath = "/members/edit";
   const navLinks = [
-    { name: "Edit profile", href: `${basePath}/profile` },
-    {
-      name: "Upload photos",
-      href: `${basePath}/photos`,
-    },
+    { name: "Edit profile", href: urls.profile },
+    { name: "Upload photos", href: urls.uploadPhotos },
   ];
 
   return (

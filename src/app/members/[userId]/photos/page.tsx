@@ -1,32 +1,16 @@
 import { getMemberPhotosByUserId } from "@/actions/members";
 import { CardInnerWrapper } from "@/components/card-inner-wrapper";
-import { Image } from "@nextui-org/react";
+import { MemberPhotos } from "@/components/members/member-photos";
 
 interface Props {
   params: Promise<{ userId: string }>;
 }
 
-export default async function MemberPhotos({ params }: Props) {
+export default async function MemberPhotosPage({ params }: Props) {
   const { userId } = await params;
   const photos = await getMemberPhotosByUserId(userId);
 
   return (
-    <CardInnerWrapper
-      header="Photos"
-      body={
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {(photos || []).map((photo) => (
-            <Image
-              key={photo.id}
-              src={photo.url || "/images/user.png"}
-              alt="Member image"
-              width={200}
-              height={200}
-              className="object-cover aspect-square"
-            />
-          ))}
-        </div>
-      }
-    />
+    <CardInnerWrapper header="Photos" body={<MemberPhotos photos={photos} />} />
   );
 }

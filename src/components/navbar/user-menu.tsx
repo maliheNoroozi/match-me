@@ -14,7 +14,7 @@ import type { User } from "next-auth";
 import Link from "next/link";
 
 interface Props {
-  user: User;
+  user: Pick<User, "name" | "image" | "email">;
 }
 
 export function UserMenu({ user }: Props) {

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Navbar, NavbarBrand, NavbarContent, Button } from "@nextui-org/react";
+import { getCurrentUserInfo } from "@/actions/user";
+import { auth } from "@/auth";
 import { NavLink } from "./nav-link";
 import { UserMenu } from "./user-menu";
-import { auth } from "@/auth";
 
 const links = [
   { label: "Matches", href: "/members" },
@@ -13,6 +14,7 @@ const links = [
 
 export async function TopNav() {
   const session = await auth();
+  const userInfo = session && session.user && (await getCurrentUserInfo());
 
   return (
     <Navbar
@@ -44,8 +46,8 @@ export async function TopNav() {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        {session?.user ? (
-          <UserMenu user={session.user} />
+        {userInfo ? (
+          <UserMenu user={userInfo} />
         ) : (
           <>
             <Button

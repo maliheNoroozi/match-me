@@ -10,4 +10,5 @@ export const urls = {
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
   profile: "/members/edit",
+  uploadPhotos: "/members/edit/photos",
 };

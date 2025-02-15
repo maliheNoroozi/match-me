@@ -2,7 +2,6 @@
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { getAuthUserId } from "./auth";
 
 export async function getMembers() {
   const session = await auth();
@@ -56,7 +55,7 @@ export async function getMemberPhotosByUserId(userId: string) {
       return null;
     }
 
-    return member.photos.map((item) => ({ id: item.id, url: item.url }));
+    return member.photos;
   } catch (error) {
     throw error;
   }
