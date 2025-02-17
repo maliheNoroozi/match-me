@@ -60,22 +60,3 @@ export async function getMemberPhotosByUserId(userId: string) {
     throw error;
   }
 }
-
-export async function getMemberChatsByUserId(userId: string) {
-  const session = await auth();
-  if (!session?.user) {
-    return null;
-  }
-
-  try {
-    const member = await prisma.member.findUnique({
-      where: { userId },
-    });
-
-    if (!member) {
-      return null;
-    }
-  } catch (error) {
-    throw error;
-  }
-}

@@ -25,12 +25,12 @@ export default async function Layout({ children, params }: Props) {
   ];
 
   return (
-    <div className="grid grid-cols-12 gap-5 pt-10 h-[80vh]">
+    <div className="grid grid-cols-12 gap-5 h-[80vh]">
       <div className="col-span-3">
         <MemberSidebar member={member} navLinks={navLinks} />
       </div>
       <div className="col-span-9">
-        <Card className="h-full w-full p-3">{children}</Card>
+        <Card className="w-full mt-10 h-[80vh]">{children}</Card>
       </div>
     </div>
   );

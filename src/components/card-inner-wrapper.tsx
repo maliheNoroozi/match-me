@@ -18,7 +18,7 @@ export function CardInnerWrapper({ header, body, footer }: Props) {
         )}
       </CardHeader>
       <Divider />
-      <CardBody>{body}</CardBody>
+      <CardBody className="overflow-y-auto">{body}</CardBody>
       {footer && <CardFooter>{footer}</CardFooter>}
     </>
   );

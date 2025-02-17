@@ -139,3 +139,17 @@ export async function getCurrentUserInfo() {
     });
   } catch (error) {}
 }
+
+export async function getUserInfo(userId: string) {
+  try {
+    return await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        name: true,
+        image: true,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+}
