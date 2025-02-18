@@ -1,7 +1,9 @@
 import { formatShortDateTime } from "@/lib/utils";
 import { MessageDto, MessageWithSenderRecipient } from "@/types";
 
-export function mapMessage(message: MessageWithSenderRecipient): MessageDto {
+export function mapMessageToMessageDto(
+  message: MessageWithSenderRecipient
+): MessageDto {
   return {
     id: message.id,
     text: message.text,

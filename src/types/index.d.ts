@@ -40,3 +40,5 @@ type MessageWithSenderRecipient = Prisma.MessageGetPayload<{
     };
   };
 }>;
+
+type MessageContainer = "inbox" | "outbox";

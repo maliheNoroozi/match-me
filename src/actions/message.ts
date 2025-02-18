@@ -2,10 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { MessageSchema, messageSchema } from "@/lib/schemas/message";
-import { ActionResult, MessageDto } from "@/types";
+import { ActionResult, MessageContainer, MessageDto } from "@/types";
 import { getAuthUserId } from "./auth";
 import { Message } from "@prisma/client";
-import { mapMessage } from "@/lib/mappings";
+import { mapMessageToMessageDto } from "@/lib/mappings";
 
 interface FormData extends MessageSchema {
   recipientId: string;
@@ -69,7 +69,72 @@ export async function getMessageThread(
       select: messageSelect,
     });
 
-    return messages.map((message) => mapMessage(message));
+    return messages.map((message) => mapMessageToMessageDto(message));
+  } catch (error) {
+    throw error;
+  }
+}
+
+// TODO, Add pagination
+export async function getMessagesByContainer(
+  container?: MessageContainer | null
+) {
+  try {
+    const userId = await getAuthUserId();
+    const messages = await prisma.message.findMany({
+      where: {
+        [container === "inbox" ? "recipientId" : "senderId"]: userId,
+        [container === "inbox" ? "recipientDeleted" : "senderDeleted"]: false,
+      },
+      orderBy: {
+        created: "desc",
+      },
+      select: messageSelect,
+    });
+
+    const messageToReturn = messages.map((message) =>
+      mapMessageToMessageDto(message)
+    );
+
+    return { messages: messageToReturn, nextCursor: undefined };
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteMessage(messageId: string, isOutbox: boolean) {
+  try {
+    const newMessage = await prisma.message.update({
+      where: { id: messageId },
+      data: {
+        [isOutbox ? "senderDeleted" : "recipientDeleted"]: true,
+      },
+    });
+
+    if (
+      newMessage.senderDeleted === true &&
+      newMessage.recipientDeleted === true
+    ) {
+      await prisma.message.delete({
+        where: { id: messageId },
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUnreadMessageCount() {
+  try {
+    const userId = await getAuthUserId();
+
+    return prisma.message.count({
+      where: {
+        recipientId: userId,
+        dateRead: null,
+        recipientDeleted: false,
+      },
+    });
   } catch (error) {
     throw error;
   }
