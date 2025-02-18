@@ -29,17 +29,17 @@ export function ChatForm() {
   });
 
   const onSubmit = async (data: MessageSchema) => {
-    try {
-      const result = await createMessage({ ...data, recipientId });
-      if (result.status === "error") {
-        handleFormServerErrors(result, setError);
-      } else {
-        reset();
-        inputRef.current?.focus();
-        router.refresh();
-      }
-    } catch (error) {}
+    const result = await createMessage({ ...data, recipientId });
+    if (result.status === "error") {
+      handleFormServerErrors(result, setError);
+    } else {
+      reset();
+      inputRef.current?.focus();
+      router.refresh();
+    }
   };
+
+  const { ref, ...rest } = register("text");
 
   return (
     <form
@@ -47,12 +47,15 @@ export function ChatForm() {
       className="flex gap-2 items-center w-full"
     >
       <Input
+        {...rest}
         isRequired
         type="text"
         variant="bordered"
         placeholder="Type a message"
-        {...register("text")}
-        ref={inputRef}
+        ref={(e) => {
+          ref(e);
+          inputRef.current = e;
+        }}
         errorMessage={errors.text?.message}
         isInvalid={!!errors.text?.message}
       />
