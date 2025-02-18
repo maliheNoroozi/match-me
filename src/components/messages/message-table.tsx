@@ -16,6 +16,7 @@ import { Key, useCallback } from "react";
 import { useMessages } from "@/hooks/useMessages";
 import { truncateString } from "@/lib/utils";
 import { AiFillDelete } from "react-icons/ai";
+import Link from "next/link";
 
 interface Props {
   initialMessages: MessageDto[];
@@ -23,14 +24,8 @@ interface Props {
 }
 
 export function MessageTable({ initialMessages, nextCursor }: Props) {
-  const {
-    columns,
-    isOutbox,
-    isDeleting,
-    messages,
-    handleMessageDelete,
-    handleRowSelect,
-  } = useMessages(initialMessages, nextCursor);
+  const { columns, isOutbox, isDeleting, messages, handleMessageDelete } =
+    useMessages(initialMessages, nextCursor);
 
   const renderCell = useCallback(
     (message: MessageDto, columnKey: Key) => {
@@ -82,7 +77,6 @@ export function MessageTable({ initialMessages, nextCursor }: Props) {
         selectionMode="single"
         shadow="none"
         className="flex flex-col gap-3 h-[80vh] overflow-auto"
-        onRowAction={handleRowSelect}
       >
         <TableHeader columns={columns}>
           {(column) => (
@@ -99,7 +93,14 @@ export function MessageTable({ initialMessages, nextCursor }: Props) {
           emptyContent={"No messages for this container"}
         >
           {(item) => (
-            <TableRow key={item.id} className="cursor-pointer">
+            <TableRow
+              key={item.id}
+              className="cursor-pointer"
+              as={Link}
+              href={`/members/${
+                isOutbox ? item?.recipientId : item?.senderId
+              }/chat`}
+            >
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}

@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { MessageSchema, messageSchema } from "@/lib/schemas/message";
 import { ActionResult, MessageContainer, MessageDto } from "@/types";
 import { getAuthUserId } from "./auth";
-import { Message } from "@prisma/client";
 import { mapMessageToMessageDto } from "@/lib/mappings";
 
 interface FormData extends MessageSchema {
@@ -13,7 +12,7 @@ interface FormData extends MessageSchema {
 
 export async function createMessage(
   formData: FormData
-): Promise<ActionResult<Message>> {
+): Promise<ActionResult<MessageDto>> {
   try {
     const userId = await getAuthUserId();
     if (!userId) {
@@ -32,9 +31,12 @@ export async function createMessage(
         recipientId,
         text: verifiedMessage.data.text,
       },
+      select: messageSelect,
     });
 
-    return { status: "success", data: newMessage };
+    const messageToReturn = mapMessageToMessageDto(newMessage);
+
+    return { status: "success", data: messageToReturn };
   } catch (error) {
     return {
       status: "error",
@@ -69,7 +71,11 @@ export async function getMessageThread(
       select: messageSelect,
     });
 
-    return messages.map((message) => mapMessageToMessageDto(message));
+    const messagesToReturn = messages.map((message) =>
+      mapMessageToMessageDto(message)
+    );
+
+    return messagesToReturn;
   } catch (error) {
     throw error;
   }
@@ -92,11 +98,11 @@ export async function getMessagesByContainer(
       select: messageSelect,
     });
 
-    const messageToReturn = messages.map((message) =>
+    const messagesToReturn = messages.map((message) =>
       mapMessageToMessageDto(message)
     );
 
-    return { messages: messageToReturn, nextCursor: undefined };
+    return { messages: messagesToReturn, nextCursor: undefined };
   } catch (error) {
     throw error;
   }
