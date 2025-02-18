@@ -23,8 +23,14 @@ interface Props {
 }
 
 export function MessageTable({ initialMessages, nextCursor }: Props) {
-  const { columns, isOutbox, isDeleting, deleteMessage, messages } =
-    useMessages(initialMessages, nextCursor);
+  const {
+    columns,
+    isOutbox,
+    isDeleting,
+    messages,
+    handleMessageDelete,
+    handleRowSelect,
+  } = useMessages(initialMessages, nextCursor);
 
   const renderCell = useCallback(
     (message: MessageDto, columnKey: Key) => {
@@ -58,7 +64,7 @@ export function MessageTable({ initialMessages, nextCursor }: Props) {
             <Button
               isIconOnly
               variant="light"
-              onPress={() => deleteMessage(message)}
+              onPress={() => handleMessageDelete(message)}
               isLoading={isDeleting.id === message.id && isDeleting.loading}
             >
               <AiFillDelete size={24} className="text-danger" />
@@ -66,7 +72,7 @@ export function MessageTable({ initialMessages, nextCursor }: Props) {
           );
       }
     },
-    [isOutbox, isDeleting.id, isDeleting.loading, deleteMessage]
+    [isOutbox, isDeleting.id, isDeleting.loading, handleMessageDelete]
   );
 
   return (
@@ -76,6 +82,7 @@ export function MessageTable({ initialMessages, nextCursor }: Props) {
         selectionMode="single"
         shadow="none"
         className="flex flex-col gap-3 h-[80vh] overflow-auto"
+        onRowAction={handleRowSelect}
       >
         <TableHeader columns={columns}>
           {(column) => (

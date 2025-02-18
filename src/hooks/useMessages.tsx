@@ -1,7 +1,7 @@
 import { deleteMessage } from "@/actions/message";
 import { MessageDto } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { Key, useCallback, useState } from "react";
 import { toast } from "react-toastify";
 
 const outboxColumns = [
@@ -53,11 +53,18 @@ export function useMessages(
     [isOutbox, router]
   );
 
+  const handleRowSelect = (key: Key) => {
+    const message = initialMessages.find((item) => item.id === key);
+    const userId = isOutbox ? message?.recipientId : message?.senderId;
+    router.push(`/members/${userId}/chat`);
+  };
+
   return {
     columns,
     isOutbox,
     isDeleting,
-    deleteMessage: handleMessageDelete,
+    handleMessageDelete,
+    handleRowSelect,
     messages: initialMessages,
   };
 }
