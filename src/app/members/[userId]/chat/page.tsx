@@ -1,7 +1,9 @@
+import { getAuthUserId } from "@/actions/auth";
 import { getMessageThread } from "@/actions/message";
 import { CardInnerWrapper } from "@/components/card-inner-wrapper";
 import { ChatForm } from "@/components/messages/chat-form";
-import { MessageBox } from "@/components/messages/message-box";
+import { MessageList } from "@/components/messages/message-list";
+import { createChatId } from "@/lib/utils";
 
 interface Props {
   params: Promise<{ userId: string }>;
@@ -9,23 +11,15 @@ interface Props {
 
 export default async function MemberChat({ params }: Props) {
   const { userId } = await params;
+  const loggedInUser = await getAuthUserId();
   const messages = await getMessageThread(userId);
-
-  const messagesBody = (
-    <div className="flex-1">
-      {messages.length === 0 ? (
-        " No message to display"
-      ) : (
-        <>
-          {messages.map((message) => (
-            <MessageBox key={message.id} message={message} />
-          ))}
-        </>
-      )}
-    </div>
-  );
+  const chatId = createChatId(userId, loggedInUser);
 
   return (
-    <CardInnerWrapper header="Chat" body={messagesBody} footer={<ChatForm />} />
+    <CardInnerWrapper
+      header="Chat"
+      body={<MessageList initialMessages={messages} chatId={chatId} />}
+      footer={<ChatForm />}
+    />
   );
 }

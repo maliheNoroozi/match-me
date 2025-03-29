@@ -9,21 +9,24 @@ declare global {
 if (!global.pusherServerInstance) {
   global.pusherServerInstance = new PusherServer({
     appId: process.env.PUSHER_APP_ID!,
-    key: process.env.PUSHER_APP_KEY!,
+    key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
     secret: process.env.PUSHER_APP_SECRET!,
-    cluster: process.env.PUSHER_APP_CLUSTER!,
+    cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
     useTLS: true,
   });
 }
 
 if (!global.pusherClientInstance) {
-  global.pusherClientInstance = new PusherClient(process.env.PUSHER_APP_KEY!, {
-    cluster: process.env.PUSHER_APP_CLUSTER!,
-    channelAuthorization: {
-      endpoint: "/api/pusher-auth",
-      transport: "ajax",
-    },
-  });
+  global.pusherClientInstance = new PusherClient(
+    process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
+    {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
+      channelAuthorization: {
+        endpoint: "/api/pusher-auth",
+        transport: "ajax",
+      },
+    }
+  );
 }
 
 export const pusherServer = global.pusherServerInstance;

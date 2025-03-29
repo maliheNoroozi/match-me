@@ -5,6 +5,8 @@ import { MessageSchema, messageSchema } from "@/lib/schemas/message";
 import { ActionResult, MessageContainer, MessageDto } from "@/types";
 import { getAuthUserId } from "./auth";
 import { mapMessageToMessageDto } from "@/lib/mappings";
+import { pusherServer } from "@/lib/pusher";
+import { createChatId } from "@/lib/utils";
 
 interface FormData extends MessageSchema {
   recipientId: string;
@@ -35,6 +37,9 @@ export async function createMessage(
     });
 
     const messageToReturn = mapMessageToMessageDto(newMessage);
+
+    const chatId = createChatId(userId, recipientId);
+    await pusherServer.trigger(chatId, "message:new", messageToReturn);
 
     return { status: "success", data: messageToReturn };
   } catch (error) {
