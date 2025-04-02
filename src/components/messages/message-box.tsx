@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { MessageDto } from "@/types";
-import { timeAgo } from "@/lib/utils";
+import { formatShortDateTime, timeAgo } from "@/lib/utils";
 import { Avatar } from "@nextui-org/react";
 
 interface Props {
@@ -32,7 +32,7 @@ export function MessageBox({ message }: Props) {
 
   const renderMessageHeader = () => (
     <div
-      className={clsx("flex items-center w-full", {
+      className={clsx("flex items-center w-full gap-1", {
         "justify-between": isCurrentUserSender,
       })}
     >
@@ -47,7 +47,9 @@ export function MessageBox({ message }: Props) {
         <span className="text-sm font-semibold text-gray-900">
           {message.senderName}
         </span>
-        <span className="text-sm text-gray-500 ml-2">{message.created}</span>
+        <span className="text-sm text-gray-500 ml-2">
+          {formatShortDateTime(message.created)}
+        </span>
       </div>
     </div>
   );

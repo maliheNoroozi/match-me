@@ -7,6 +7,7 @@ import { getAuthUserId } from "./auth";
 import { mapMessageToMessageDto } from "@/lib/mappings";
 import { pusherServer } from "@/lib/pusher";
 import { createChatId } from "@/lib/utils";
+import { PusherEvents } from "@/lib/pusher-events";
 
 interface FormData extends MessageSchema {
   recipientId: string;
@@ -39,7 +40,11 @@ export async function createMessage(
     const messageToReturn = mapMessageToMessageDto(newMessage);
 
     const chatId = createChatId(userId, recipientId);
-    await pusherServer.trigger(chatId, "message:new", messageToReturn);
+    await pusherServer.trigger(
+      chatId,
+      PusherEvents.NewMessage,
+      messageToReturn
+    );
 
     return { status: "success", data: messageToReturn };
   } catch (error) {
@@ -75,6 +80,34 @@ export async function getMessageThread(
       },
       select: messageSelect,
     });
+
+    if (messages.length > 0) {
+      const unReadMessageIds = messages
+        .filter(
+          (message) =>
+            message.dateRead === null &&
+            message.sender?.userId === recipientId &&
+            message.recipient?.userId === userId
+        )
+        .map((message) => message.id);
+
+      await prisma.message.updateMany({
+        where: {
+          recipientId: userId,
+          senderId: recipientId,
+          dateRead: null,
+        },
+        data: {
+          dateRead: new Date(),
+        },
+      });
+
+      await pusherServer.trigger(
+        createChatId(userId, recipientId),
+        PusherEvents.ReadMessages,
+        unReadMessageIds
+      );
+    }
 
     const messagesToReturn = messages.map((message) =>
       mapMessageToMessageDto(message)

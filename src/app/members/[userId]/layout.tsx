@@ -30,7 +30,7 @@ export default async function Layout({ children, params }: Props) {
         <MemberSidebar member={member} navLinks={navLinks} />
       </div>
       <div className="col-span-9">
-        <Card className="w-full mt-10 h-[80vh]">{children}</Card>
+        <Card className="w-full mt-10 h-[80vh] pb-3">{children}</Card>
       </div>
     </div>
   );
